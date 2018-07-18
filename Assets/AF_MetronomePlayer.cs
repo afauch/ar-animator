@@ -1,22 +1,34 @@
 ﻿using UnityEngine;
 using Crayon;
 using System.Collections;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(AudioSource))]
 public class AF_MetronomePlayer : MonoBehaviour
 {
+    public static AF_MetronomePlayer _instance;
+    public UnityEvent Tick;
+
     private bool _indicatorOn = true;
 
     public double bpm = 120.0F;
     public float gain = 0.5F;
     public int signatureHi = 4;
     public int signatureLo = 4;
-    private double nextTick = 0.0F;
+    public double nextTick = 0.0F;
     private float amp = 0.0F;
     private float phase = 0.0F;
     private double sampleRate = 0.0F;
     private int accent;
     private bool running = false;
+
+    private void Awake()
+    {
+        if (!_instance)
+            _instance = this;
+    }
+
+
     void Start()
     {
         accent = signatureHi;
@@ -40,6 +52,11 @@ public class AF_MetronomePlayer : MonoBehaviour
     {
         _indicatorOn = false;
         running = false;
+    }
+
+    private void Update()
+    {
+        // Debug.Log(string.Format("Next Tick: {0}", nextTick));
     }
 
     // TODO: This is working but is offset from the beat, rather than ON the beat
@@ -91,6 +108,10 @@ public class AF_MetronomePlayer : MonoBehaviour
 
     private IEnumerator Call()
     {
+        if(Tick != null) {
+            Tick.Invoke();
+        }
+
         this.gameObject.SetColor(Random.ColorHSV(), 0.0f);
         yield return null;
     }

@@ -11,8 +11,10 @@ public class AF_Recordable : MonoBehaviour {
     VRTK_InteractableObject _vO;
     VRTK_ControllerEvents _vE;
 
+    public bool _snapToMetronome = true;
     private bool _isRecording = false;
     private bool _isGrabbed = false;
+    private bool _shouldPlay = false;
 
     List<Vector3> _positions = new List<Vector3>();
     List<Quaternion> _rotations = new List<Quaternion>();
@@ -31,6 +33,7 @@ public class AF_Recordable : MonoBehaviour {
     private void OnGrab(object sender, InteractableObjectEventArgs e)
     {
         _isGrabbed = true;
+        _shouldPlay = false;
         Debug.Log(e.interactingObject.GetComponentInParent<VRTK_ControllerEvents>());
         _vE = e.interactingObject.GetComponentInParent<VRTK_ControllerEvents>();
         _vE.TriggerClicked += OnTriggerClicked;
@@ -54,6 +57,17 @@ public class AF_Recordable : MonoBehaviour {
     {
         StopRecording();
         _vO.OnInteractableObjectUngrabbed(new InteractableObjectEventArgs());
+
+        if(_snapToMetronome)
+        {
+            // subscribe to the next metronome event
+            AF_MetronomePlayer._instance.Tick.AddListener(StartPlayback);
+        } else
+        {
+            // By default, start playing right away
+            _shouldPlay = true;
+        }
+
     }
 
     private void Update()
@@ -68,7 +82,10 @@ public class AF_Recordable : MonoBehaviour {
         {
             if(!_isGrabbed)
             {
-                PlayRecording();
+                if(_shouldPlay)
+                {
+                    ContinuePlayback();
+                }
             }
         }
     }
@@ -91,7 +108,15 @@ public class AF_Recordable : MonoBehaviour {
         _isRecording = false;
     }
 
-    private void PlayRecording()
+    private void StartPlayback()
+    {
+        _shouldPlay = true;
+
+        // Unsubscribe from the Tick listener as soon as the animation starts
+        AF_MetronomePlayer._instance.Tick.RemoveListener(StartPlayback);
+    }
+
+    private void ContinuePlayback()
     {
         if (_frameCount == 0)
         {

@@ -8,6 +8,8 @@ using Crayon;
 public class AF_Metronome : MonoBehaviour
 {
 
+    public static AF_Metronome _instance;
+
     // Metronome logic adapted from Javon Harper
     // Github: javonharper
 
@@ -21,6 +23,12 @@ public class AF_Metronome : MonoBehaviour
     VRTK_InteractableObject _vO;
     VRTK_ControllerEvents _vE;
     AF_MetronomePlayer _metronomePlayer;
+
+    private void Awake()
+    {
+        if(!_instance)
+            _instance = this;
+    }
 
     private void Start()
     {
@@ -38,7 +46,6 @@ public class AF_Metronome : MonoBehaviour
 
     private void Update()
     {
-
     }
 
     private void OnGrab(object sender, InteractableObjectEventArgs e)
