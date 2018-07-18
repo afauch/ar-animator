@@ -5,12 +5,14 @@ using UnityEngine;
 using VRTK;
 using VRTK.UnityEventHelper;
 
+[RequireComponent(typeof(VRTK_InteractableObject))]
 public class AF_Recordable : MonoBehaviour {
 
     VRTK_InteractableObject _vO;
     VRTK_ControllerEvents _vE;
 
     private bool _isRecording = false;
+    private bool _isGrabbed = false;
 
     List<Vector3> _positions = new List<Vector3>();
     List<Quaternion> _rotations = new List<Quaternion>();
@@ -22,11 +24,36 @@ public class AF_Recordable : MonoBehaviour {
     {
         _vO = GetComponent<VRTK_InteractableObject>();
         _vO.InteractableObjectGrabbed += OnGrab;
+        _vO.InteractableObjectUngrabbed += OnUngrab;
     }
+
 
     private void OnGrab(object sender, InteractableObjectEventArgs e)
     {
-        Debug.Log(e.interactingObject);
+        _isGrabbed = true;
+        Debug.Log(e.interactingObject.GetComponentInParent<VRTK_ControllerEvents>());
+        _vE = e.interactingObject.GetComponentInParent<VRTK_ControllerEvents>();
+        _vE.TriggerClicked += OnTriggerClicked;
+        _vE.TriggerUnclicked += OnTriggerUnclicked;
+    }
+
+    private void OnUngrab(object sender, InteractableObjectEventArgs e)
+    {
+        _isGrabbed = false;
+        _vE.TriggerClicked -= OnTriggerClicked;
+        _vE.TriggerUnclicked -= OnTriggerUnclicked;
+    }
+
+    private void OnTriggerClicked(object sender, ControllerInteractionEventArgs e)
+    {
+        Debug.Log("OnGripClicked Called");
+        StartRecording();
+    }
+
+    private void OnTriggerUnclicked(object sender, ControllerInteractionEventArgs e)
+    {
+        StopRecording();
+        _vO.OnInteractableObjectUngrabbed(new InteractableObjectEventArgs());
     }
 
     private void Update()
@@ -39,7 +66,10 @@ public class AF_Recordable : MonoBehaviour {
         }
         else
         {
-            PlayRecording();
+            if(!_isGrabbed)
+            {
+                PlayRecording();
+            }
         }
     }
 
