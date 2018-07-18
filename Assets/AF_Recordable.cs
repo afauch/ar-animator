@@ -11,6 +11,10 @@ public class AF_Recordable : MonoBehaviour {
     VRTK_InteractableObject _vO;
     VRTK_ControllerEvents _vE;
 
+    // TODO: It would be very simple to create 
+    // subscription events for quarter, half, triplets, etc
+    // to create a time grid
+
     public bool _snapToMetronome = true;
     private bool _isRecording = false;
     private bool _isGrabbed = false;
@@ -110,10 +114,11 @@ public class AF_Recordable : MonoBehaviour {
 
     private void StartPlayback()
     {
+        _currentPlaybackFrame = 0;
         _shouldPlay = true;
 
         // Unsubscribe from the Tick listener as soon as the animation starts
-        AF_MetronomePlayer._instance.Tick.RemoveListener(StartPlayback);
+        // AF_MetronomePlayer._instance.Tick.RemoveListener(StartPlayback);
     }
 
     private void ContinuePlayback()
