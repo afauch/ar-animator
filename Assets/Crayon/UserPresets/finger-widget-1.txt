@@ -1,0 +1,81 @@
+{
+    "_id": "finger-widget-1",
+    "_crayonStatesData": [
+        {
+            "_crayonStateType": 0,
+            "_customStateType": "",
+            "_crayonMatchKey": "default",
+            "_easing": 27,
+            "_customEasing": "",
+            "_duration": 0.5,
+            "_tweenAppearance": true,
+            "_tweenAppearanceMode": 2,
+            "_color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 1.0
+            },
+            "_material": {
+                "instanceID": 11996
+            },
+            "_opacity": 1.0,
+            "_tweenPosition": true,
+            "_relativePosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "_tweenRotation": true,
+            "_relativeRotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "_tweenScale": true,
+            "_relativeScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        {
+            "_crayonStateType": 4,
+            "_customStateType": "Hidden",
+            "_crayonMatchKey": "customHidden",
+            "_easing": 27,
+            "_customEasing": "",
+            "_duration": 0.5,
+            "_tweenAppearance": true,
+            "_tweenAppearanceMode": 2,
+            "_color": {
+                "r": 0.4264705777168274,
+                "g": 1.0,
+                "b": 0.4541582465171814,
+                "a": 1.0
+            },
+            "_material": {
+                "instanceID": 11996
+            },
+            "_opacity": 0.0,
+            "_tweenPosition": false,
+            "_relativePosition": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "_tweenRotation": true,
+            "_relativeRotation": {
+                "x": 0.0,
+                "y": 90.0,
+                "z": 90.0
+            },
+            "_tweenScale": true,
+            "_relativeScale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    ]
+}
